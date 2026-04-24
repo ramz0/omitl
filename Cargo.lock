@@ -1479,6 +1479,7 @@ dependencies = [
  "clap",
  "colored",
  "docx-rs",
+ "regex",
  "serde",
  "serde_json",
  "serde_yaml",
@@ -1487,6 +1488,7 @@ dependencies = [
  "typst",
  "typst-pdf",
  "typst-render",
+ "walkdir",
 ]
 
 [[package]]

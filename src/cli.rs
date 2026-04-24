@@ -50,6 +50,34 @@ pub enum Commands {
         #[arg(long)]
         openapi: bool,
     },
+
+    /// Scan a project and auto-generate a contract from its source code.
+    Scan {
+        /// Path to the project root (must contain go.mod, package.json, etc.)
+        #[arg(short, long)]
+        path: PathBuf,
+
+        /// API title (default: directory name).
+        #[arg(long)]
+        title: Option<String>,
+
+        /// Base URL of the API (default: http://localhost:8080).
+        #[arg(long)]
+        base_url: Option<String>,
+
+        /// Where to save the generated contract JSON.
+        /// Default: contracts/<project-name>.json
+        #[arg(short, long)]
+        output: Option<PathBuf>,
+
+        /// Also generate a PDF after scanning.
+        #[arg(long)]
+        generate: bool,
+
+        /// Brand config to use when --generate is set.
+        #[arg(short, long)]
+        brand: Option<PathBuf>,
+    },
 }
 
 #[derive(Debug, Clone, ValueEnum)]
