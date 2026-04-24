@@ -10,64 +10,81 @@ omitl generate --input api.json --brand brand.json --format pdf
 
 ---
 
-## Requirements
-
-### 1. Rust
-
-Required on all platforms. Install via [rustup](https://rustup.rs):
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-On Windows, download and run [rustup-init.exe](https://rustup.rs).
-
-### 2. Typst
-
-Required for PDF generation.
-
-| Platform | Command |
-|---|---|
-| Arch Linux | `sudo pacman -S typst` |
-| Ubuntu / Debian | `sudo snap install typst` |
-| macOS | `brew install typst` |
-| Windows | `winget install Typst.Typst` |
-| Any (cargo) | `cargo install typst-cli` |
-
-Verify: `typst --version`
-
-### 3. just *(optional — for contributors)*
-
-Task runner used during development. Not needed to use the tool, only to contribute.
-
-| Platform | Command |
-|---|---|
-| Arch Linux | `sudo pacman -S just` |
-| Ubuntu / Debian | `sudo apt install just` |
-| macOS | `brew install just` |
-| Windows | `winget install Casey.Just` |
-| Any (cargo) | `cargo install just` |
-
-Verify: `just --version`
-
----
-
 ## Installation
 
-**From source (all platforms):**
+### Linux / macOS — one-liner
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/yourusername/omitl/main/install.sh | sh
+```
+
+### Windows — PowerShell
+
+```powershell
+irm https://raw.githubusercontent.com/yourusername/omitl/main/install.ps1 | iex
+```
+
+### Package managers
+
+| Platform | Command |
+|---|---|
+| Arch Linux | `yay -S omitl` *(AUR — coming soon)* |
+| macOS / Linux | `brew install yourusername/tap/omitl` *(Homebrew — coming soon)* |
+| Windows | `scoop install omitl` *(Scoop — coming soon)* |
+| Any (Rust) | `cargo install omitl` |
+
+### Manual — download binary
+
+Go to [Releases](https://github.com/yourusername/omitl/releases) and download the binary for your platform:
+
+| File | Platform |
+|---|---|
+| `omitl-linux-x86_64.tar.gz` | Linux 64-bit |
+| `omitl-linux-arm64.tar.gz` | Linux ARM (Raspberry Pi, etc.) |
+| `omitl-macos-x86_64.tar.gz` | macOS Intel |
+| `omitl-macos-arm64.tar.gz` | macOS Apple Silicon (M1/M2/M3) |
+| `omitl-windows-x86_64.zip` | Windows 64-bit |
+
+Extract and place the binary somewhere in your `PATH`.
+
+### Build from source
+
+Requires [Rust 1.85+](https://rustup.rs) and [Typst](https://typst.app).
 
 ```bash
 git clone https://github.com/yourusername/omitl
 cd omitl
 cargo build --release
+# binary → target/release/omitl  (target\release\omitl.exe on Windows)
 ```
 
-The binary will be at `target/release/omitl` (or `target\release\omitl.exe` on Windows).
+> **Note:** Typst is currently required as an external dependency for PDF generation.
+> This will be removed in v0.2 — the binary will be fully self-contained.
 
-**Arch Linux (AUR) — coming soon:**
-```bash
-yay -S omitl
-```
+---
+
+## Requirements
+
+Omitl has **one external dependency** today: [Typst](https://typst.app), used for PDF rendering.
+It will be eliminated in v0.2 (compiled into the binary).
+
+| Platform | Install Typst |
+|---|---|
+| Arch Linux | `sudo pacman -S typst` |
+| Ubuntu / Debian | `sudo snap install typst` |
+| macOS | `brew install typst` |
+| Windows | `winget install Typst.Typst` |
+| Any | `cargo install typst-cli` |
+
+**Contributing only** — [`just`](https://just.systems) task runner:
+
+| Platform | Install just |
+|---|---|
+| Arch Linux | `sudo pacman -S just` |
+| Ubuntu / Debian | `sudo apt install just` |
+| macOS | `brew install just` |
+| Windows | `winget install Casey.Just` |
+| Any | `cargo install just` |
 
 ---
 
