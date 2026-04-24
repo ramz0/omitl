@@ -1,0 +1,15 @@
+{
+  "company_name": "Acme Corp",
+  "primary_color": "#1A3C5E",
+  "secondary_color": "#F5F5F5",
+  "accent_color": "#E8631A",
+  "font_family": "Liberation Sans",
+  "footer_text": "Acme Corp — Documento Confidencial",
+  "document_date": "2026-04-24",
+  "logo": {
+    "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "mime": "image/png",
+    "position": "left",
+    "width_pt": 120.0
+  }
+}

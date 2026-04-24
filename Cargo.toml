@@ -1,0 +1,50 @@
+[package]
+name = "omitl"
+version = "0.1.0"
+edition = "2021"
+description = "CLI tool to generate corporate API contract documentation (PDF/DOCX)"
+license = "MIT"
+repository = "https://github.com/yourusername/omitl"
+keywords = ["cli", "documentation", "api", "pdf", "contracts"]
+categories = ["command-line-utilities", "development-tools"]
+
+[[bin]]
+name = "omitl"
+path = "src/main.rs"
+
+[dependencies]
+# CLI
+clap = { version = "4", features = ["derive", "env"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+
+# Templating
+tera = "1"
+
+# PDF generation via Typst
+typst = "0.11"
+typst-pdf = "0.11"
+typst-render = "0.11"
+
+# DOCX generation
+docx-rs = "0.4"
+
+# Base64 for embedded logos
+base64 = "0.22"
+
+# Error handling
+thiserror = "2"
+anyhow = "1"
+
+# Terminal output
+colored = "2"
+
+[profile.release]
+opt-level = "z"      # Minimizar tamaño del binario
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"

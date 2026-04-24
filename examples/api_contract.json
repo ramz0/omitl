@@ -1,0 +1,89 @@
+{
+  "title": "Payments API",
+  "version": "1.0.0",
+  "description": "Contrato técnico para el módulo de pagos.",
+  "base_url": "https://api.acme.com/v1",
+  "endpoints": [
+    {
+      "method": "post",
+      "path": "/payments",
+      "title": "Crear Pago",
+      "description": "Inicia una transacción de pago.",
+      "parameters": [
+        {
+          "name": "amount",
+          "location": "body",
+          "type": "number",
+          "required": true,
+          "description": "Monto en centavos (MXN).",
+          "example": 9900
+        },
+        {
+          "name": "currency",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": "Código ISO 4217.",
+          "example": "MXN"
+        },
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer token.",
+          "example": "Bearer eyJ..."
+        }
+      ],
+      "responses": [
+        {
+          "status": 201,
+          "description": "Pago creado exitosamente.",
+          "body": { "id": "pay_abc123", "status": "pending" }
+        },
+        {
+          "status": 422,
+          "description": "Datos de entrada inválidos.",
+          "body": { "error": "invalid_amount" }
+        }
+      ],
+      "tags": ["payments"]
+    },
+    {
+      "method": "get",
+      "path": "/payments/{id}",
+      "title": "Obtener Pago",
+      "description": "Retorna el estado de un pago existente.",
+      "parameters": [
+        {
+          "name": "id",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "ID único del pago.",
+          "example": "pay_abc123"
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "Pago encontrado.",
+          "body": { "id": "pay_abc123", "status": "completed", "amount": 9900 }
+        },
+        { "status": 404, "description": "Pago no encontrado.", "body": null }
+      ],
+      "tags": ["payments"]
+    },
+    {
+      "method": "delete",
+      "path": "/payments/{id}/cancel",
+      "title": "Cancelar Pago",
+      "description": "Cancela un pago pendiente. No requiere parámetros adicionales.",
+      "parameters": [],
+      "responses": [
+        { "status": 204, "description": "Cancelado exitosamente.", "body": null }
+      ],
+      "tags": ["payments"]
+    }
+  ]
+}

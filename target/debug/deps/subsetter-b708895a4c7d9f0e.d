@@ -1,0 +1,13 @@
+/home/ramz/projects/omitl/target/debug/deps/subsetter-b708895a4c7d9f0e.d: /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/lib.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/mod.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/dict.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/index.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/glyf.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/head.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/hmtx.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/post.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/stream.rs
+
+/home/ramz/projects/omitl/target/debug/deps/libsubsetter-b708895a4c7d9f0e.rmeta: /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/lib.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/mod.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/dict.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/index.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/glyf.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/head.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/hmtx.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/post.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/stream.rs
+
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/lib.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/mod.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/dict.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/cff/index.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/glyf.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/head.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/hmtx.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/post.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/subsetter-0.1.1/src/stream.rs:

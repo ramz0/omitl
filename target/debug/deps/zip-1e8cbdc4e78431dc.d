@@ -1,0 +1,16 @@
+/home/ramz/projects/omitl/target/debug/deps/zip-1e8cbdc4e78431dc.d: /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/lib.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/compression.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/cp437.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/crc32.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/read.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/read/stream.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/result.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/spec.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/types.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/write.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/zipcrypto.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/unstable.rs
+
+/home/ramz/projects/omitl/target/debug/deps/libzip-1e8cbdc4e78431dc.rmeta: /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/lib.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/compression.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/cp437.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/crc32.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/read.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/read/stream.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/result.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/spec.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/types.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/write.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/zipcrypto.rs /home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/unstable.rs
+
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/lib.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/compression.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/cp437.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/crc32.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/read.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/read/stream.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/result.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/spec.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/types.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/write.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/zipcrypto.rs:
+/home/ramz/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zip-0.6.6/src/unstable.rs:
