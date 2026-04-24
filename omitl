@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Omitl dev CLI — mirrors the ng/angular pattern
+# Usage: ./omitl <command> [args]
+
+set -e
+
+BOLD="\033[1m"
+CYAN="\033[36m"
+RESET="\033[0m"
+
+case "$1" in
+  run)
+    shift
+    cargo run -- "$@"
+    ;;
+  build)
+    cargo build --release
+    ;;
+  check)
+    cargo check
+    ;;
+  test)
+    shift
+    cargo test "$@"
+    ;;
+  fmt)
+    cargo fmt
+    ;;
+  lint)
+    cargo clippy -- -D warnings
+    ;;
+  example)
+    cargo run -- generate \
+      --input examples/api_contract.json \
+      --brand  examples/brand.json \
+      --format pdf \
+      --output /tmp/omitl_example.pdf
+    echo -e "${CYAN}→ /tmp/omitl_example.pdf${RESET}"
+    ;;
+  ""|help|--help|-h)
+    echo -e "${BOLD}Omitl${RESET} — API contract documentation generator"
+    echo ""
+    echo -e "${CYAN}Development commands:${RESET}"
+    echo "  ./omitl run [args]   Compile and run  (cargo run -- [args])"
+    echo "  ./omitl build        Release build    (cargo build --release)"
+    echo "  ./omitl check        Type-check only  (cargo check)"
+    echo "  ./omitl test         Run tests        (cargo test)"
+    echo "  ./omitl fmt          Format code      (cargo fmt)"
+    echo "  ./omitl lint         Clippy linter    (cargo clippy)"
+    echo "  ./omitl example      Generate sample PDF from examples/"
+    ;;
+  *)
+    echo "Unknown command: $1"
+    echo "Run './omitl help' for available commands."
+    exit 1
+    ;;
+esac
