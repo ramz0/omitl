@@ -69,7 +69,7 @@
 
 === Parameters
 
-{% if ep.has_parameters %}
+{% if ep.parameters %}
 #table(
   columns: (auto, auto, auto, auto, 1fr),
   fill: (_, row) => if row == 0 { primary } else if calc.odd(row) { secondary } else { white },
@@ -84,7 +84,7 @@
   [`{{ p.name }}`],
   [{{ p.location }}],
   [{{ p.param_type }}],
-  [{{ p.required | replace(from="true", to="Sí") | replace(from="false", to="No") }}],
+  [{% if p.required %}Sí{% else %}No{% endif %}],
   [{{ p.description | default(value="—") }}],
   {% endfor %}
 )

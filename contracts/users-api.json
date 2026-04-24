@@ -1,0 +1,49 @@
+{
+  "title": "Users API",
+  "version": "1.0.0",
+  "description": "Gestión de usuarios y autenticación.",
+  "base_url": "https://api.acme.com/v1",
+  "endpoints": [
+    {
+      "method": "post",
+      "path": "/auth/login",
+      "title": "Iniciar Sesión",
+      "description": "Autentica un usuario y retorna un JWT.",
+      "parameters": [
+        { "name": "email",    "location": "body", "type": "string",  "required": true,  "description": "Correo electrónico del usuario." },
+        { "name": "password", "location": "body", "type": "string",  "required": true,  "description": "Contraseña en texto plano (HTTPS obligatorio)." }
+      ],
+      "responses": [
+        { "status": 200, "description": "Login exitoso.",       "body": { "token": "eyJ...", "expires_in": 3600 } },
+        { "status": 401, "description": "Credenciales inválidas.", "body": { "error": "invalid_credentials" } }
+      ],
+      "tags": ["auth"]
+    },
+    {
+      "method": "get",
+      "path": "/users/{id}",
+      "title": "Obtener Usuario",
+      "description": "Retorna el perfil de un usuario por su ID.",
+      "parameters": [
+        { "name": "id",            "location": "path",   "type": "string", "required": true,  "description": "UUID del usuario." },
+        { "name": "Authorization", "location": "header", "type": "string", "required": true,  "description": "Bearer token." }
+      ],
+      "responses": [
+        { "status": 200, "description": "Usuario encontrado.", "body": { "id": "uuid", "email": "user@acme.com", "role": "admin" } },
+        { "status": 404, "description": "Usuario no encontrado.", "body": null }
+      ],
+      "tags": ["users"]
+    },
+    {
+      "method": "delete",
+      "path": "/auth/logout",
+      "title": "Cerrar Sesión",
+      "description": "Invalida el token actual. No requiere parámetros adicionales.",
+      "parameters": [],
+      "responses": [
+        { "status": 204, "description": "Sesión cerrada.", "body": null }
+      ],
+      "tags": ["auth"]
+    }
+  ]
+}

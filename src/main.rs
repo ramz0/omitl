@@ -14,7 +14,7 @@ use schema::{openapi, validate, ApiContract};
 
 fn main() {
     if let Err(e) = run() {
-        eprintln!("{} {}", "error:".red().bold(), e);
+        eprintln!("{} {:#}", "error:".red().bold(), e);
         std::process::exit(1);
     }
 }

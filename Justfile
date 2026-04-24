@@ -33,14 +33,31 @@ fmt:
 lint:
     cargo clippy -- -D warnings
 
-# Generate docs from a sample contract (requires a built binary)
+# Generate docs from a sample contract
 example:
     cargo run -- generate \
-        --input examples/api_contract.json \
+        --input contracts/payments-api.json \
         --brand examples/brand.json \
         --format pdf \
         --output /tmp/omitl_example.pdf
     @echo "Output: /tmp/omitl_example.pdf"
+
+# Generate PDF for every contract in contracts/ → output/<name>/contract.pdf
+batch:
+    #!/usr/bin/env bash
+    set -e
+    for f in contracts/*.json; do
+        name=$(basename "$f" .json)
+        mkdir -p "output/$name"
+        echo "Generating $name..."
+        cargo run -q -- generate \
+            --input "$f" \
+            --brand examples/brand.json \
+            --format pdf \
+            --output "output/$name/contract.pdf"
+        echo "  → output/$name/contract.pdf"
+    done
+    echo "Done."
 
 # Clean build artifacts
 clean:

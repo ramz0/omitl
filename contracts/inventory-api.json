@@ -1,0 +1,54 @@
+{
+  "title": "Inventory API",
+  "version": "1.0.0",
+  "description": "Control de inventario y stock de productos.",
+  "base_url": "https://api.acme.com/v1",
+  "endpoints": [
+    {
+      "method": "get",
+      "path": "/products",
+      "title": "Listar Productos",
+      "description": "Retorna el catálogo completo de productos con paginación.",
+      "parameters": [
+        { "name": "page",     "location": "query", "type": "integer", "required": false, "description": "Número de página (default: 1)." },
+        { "name": "per_page", "location": "query", "type": "integer", "required": false, "description": "Resultados por página (max: 100)." },
+        { "name": "category", "location": "query", "type": "string",  "required": false, "description": "Filtro por categoría." }
+      ],
+      "responses": [
+        { "status": 200, "description": "Lista de productos.", "body": { "data": [], "total": 0, "page": 1 } }
+      ],
+      "tags": ["products"]
+    },
+    {
+      "method": "put",
+      "path": "/products/{sku}/stock",
+      "title": "Actualizar Stock",
+      "description": "Actualiza la cantidad en inventario de un producto.",
+      "parameters": [
+        { "name": "sku",      "location": "path", "type": "string",  "required": true, "description": "SKU único del producto." },
+        { "name": "quantity", "location": "body", "type": "integer", "required": true, "description": "Nueva cantidad en stock." }
+      ],
+      "responses": [
+        { "status": 200, "description": "Stock actualizado.", "body": { "sku": "PROD-001", "stock": 150 } },
+        { "status": 404, "description": "Producto no encontrado.", "body": null }
+      ],
+      "tags": ["products"]
+    },
+    {
+      "method": "post",
+      "path": "/products/{sku}/reserve",
+      "title": "Reservar Stock",
+      "description": "Reserva unidades para una orden pendiente.",
+      "parameters": [
+        { "name": "sku",      "location": "path", "type": "string",  "required": true, "description": "SKU del producto." },
+        { "name": "quantity", "location": "body", "type": "integer", "required": true, "description": "Unidades a reservar." },
+        { "name": "order_id", "location": "body", "type": "string",  "required": true, "description": "ID de la orden asociada." }
+      ],
+      "responses": [
+        { "status": 201, "description": "Reserva creada.",             "body": { "reservation_id": "res_abc" } },
+        { "status": 409, "description": "Stock insuficiente.",         "body": { "error": "insufficient_stock", "available": 5 } }
+      ],
+      "tags": ["products", "reservations"]
+    }
+  ]
+}

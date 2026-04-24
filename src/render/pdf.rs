@@ -13,7 +13,11 @@ pub fn render(
     template_dir: &str,
     output_path: &Path,
 ) -> anyhow::Result<()> {
-    let tera = Tera::new(&format!("{}/**/*.tera", template_dir))?;
+    let template_path = std::path::Path::new(template_dir).join("contract.typ.tera");
+    let template_src = std::fs::read_to_string(&template_path)
+        .map_err(|_| anyhow::anyhow!("Template not found: {}", template_path.display()))?;
+    let mut tera = Tera::default();
+    tera.add_raw_template("contract.typ.tera", &template_src)?;
     let ctx = build(contract, brand)?;
     let typ_source = tera.render("contract.typ.tera", &ctx)?;
 

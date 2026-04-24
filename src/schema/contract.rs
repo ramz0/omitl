@@ -25,7 +25,7 @@ pub enum ParamLocation {
 pub struct Parameter {
     pub name: String,
     pub location: ParamLocation,
-    #[serde(rename = "type")]
+    #[serde(rename(deserialize = "type"))]
     pub param_type: String,
     pub required: bool,
     pub description: Option<String>,

@@ -31,11 +31,25 @@ case "$1" in
     ;;
   example)
     cargo run -- generate \
-      --input examples/api_contract.json \
+      --input contracts/payments-api.json \
       --brand  examples/brand.json \
       --format pdf \
       --output /tmp/omitl_example.pdf
     echo -e "${CYAN}→ /tmp/omitl_example.pdf${RESET}"
+    ;;
+  batch)
+    for f in contracts/*.json; do
+      name=$(basename "$f" .json)
+      mkdir -p "output/$name"
+      echo "Generating $name..."
+      cargo run -q -- generate \
+        --input "$f" \
+        --brand  examples/brand.json \
+        --format pdf \
+        --output "output/$name/contract.pdf"
+      echo -e "${CYAN}  → output/$name/contract.pdf${RESET}"
+    done
+    echo -e "${BOLD}Done.${RESET}"
     ;;
   ""|help|--help|-h)
     echo -e "${BOLD}Omitl${RESET} — API contract documentation generator"
@@ -47,7 +61,8 @@ case "$1" in
     echo "  ./omitl test         Run tests        (cargo test)"
     echo "  ./omitl fmt          Format code      (cargo fmt)"
     echo "  ./omitl lint         Clippy linter    (cargo clippy)"
-    echo "  ./omitl example      Generate sample PDF from examples/"
+    echo "  ./omitl example      Generate sample PDF from contracts/payments-api.json"
+    echo "  ./omitl batch        Generate PDF for every contract in contracts/"
     ;;
   *)
     echo "Unknown command: $1"
