@@ -12,21 +12,57 @@ omitl generate --input api.json --brand brand.json --format pdf
 
 ## Requirements
 
-- [Rust](https://www.rust-lang.org/tools/install) 1.85+
-- [Typst](https://typst.app) — for PDF generation (`sudo pacman -S typst` on Arch)
+### 1. Rust
+
+Required on all platforms. Install via [rustup](https://rustup.rs):
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+On Windows, download and run [rustup-init.exe](https://rustup.rs).
+
+### 2. Typst
+
+Required for PDF generation.
+
+| Platform | Command |
+|---|---|
+| Arch Linux | `sudo pacman -S typst` |
+| Ubuntu / Debian | `sudo snap install typst` |
+| macOS | `brew install typst` |
+| Windows | `winget install Typst.Typst` |
+| Any (cargo) | `cargo install typst-cli` |
+
+Verify: `typst --version`
+
+### 3. just *(optional — for contributors)*
+
+Task runner used during development. Not needed to use the tool, only to contribute.
+
+| Platform | Command |
+|---|---|
+| Arch Linux | `sudo pacman -S just` |
+| Ubuntu / Debian | `sudo apt install just` |
+| macOS | `brew install just` |
+| Windows | `winget install Casey.Just` |
+| Any (cargo) | `cargo install just` |
+
+Verify: `just --version`
 
 ---
 
 ## Installation
 
-**From source:**
+**From source (all platforms):**
+
 ```bash
 git clone https://github.com/yourusername/omitl
 cd omitl
-./omitl build
+cargo build --release
 ```
 
-The binary will be at `target/release/omitl`.
+The binary will be at `target/release/omitl` (or `target\release\omitl.exe` on Windows).
 
 **Arch Linux (AUR) — coming soon:**
 ```bash
@@ -54,7 +90,44 @@ omitl generate --input swagger.json --openapi
 omitl validate --input api.json
 ```
 
-See [`examples/`](./examples) for sample `api_contract.json` and `brand.json` files.
+See [`contracts/`](./contracts) for sample contract files and [`examples/`](./examples) for a sample brand config.
+
+---
+
+## Multi-API workflow
+
+Place one contract file per API inside `contracts/`, then generate all at once.
+Output goes to `output/<api-name>/contract.pdf` — this directory is gitignored.
+
+```bash
+contracts/
+  payments-api.json
+  users-api.json
+  inventory-api.json
+```
+
+**Generate all:**
+
+```bash
+# Linux / macOS
+./omitl batch
+
+# Windows
+omitl.cmd batch
+
+# With just
+just batch
+```
+
+**With OpenAPI specs** (FastAPI, Express, Gin, etc.):
+
+```bash
+# Export from your running API
+curl http://localhost:8000/openapi.json > contracts/my-api.json
+
+# Generate with --openapi flag
+omitl generate --input contracts/my-api.json --openapi --brand examples/brand.json
+```
 
 ---
 
@@ -62,17 +135,17 @@ See [`examples/`](./examples) for sample `api_contract.json` and `brand.json` fi
 
 ### Linux / macOS
 
-Use the `./omitl` script included in the repo — no extra tools required.
+Use the `./omitl` script included in the repo:
 
 ```bash
 ./omitl run              # compile and run
-./omitl run generate --input examples/api_contract.json
 ./omitl build            # release binary → target/release/omitl
 ./omitl check            # type-check only (fast)
 ./omitl test             # run test suite
 ./omitl fmt              # format code
 ./omitl lint             # clippy linter
-./omitl example          # generate sample PDF from examples/
+./omitl example          # generate sample PDF from contracts/payments-api.json
+./omitl batch            # generate PDF for every contract in contracts/
 ./omitl help             # show all commands
 ```
 
@@ -82,23 +155,24 @@ Use `omitl.cmd` from the project root in CMD or PowerShell:
 
 ```bat
 omitl run
-omitl run generate --input examples/api_contract.json
 omitl build
 omitl check
 omitl test
-omitl fmt
-omitl lint
 omitl example
+omitl batch
 omitl help
 ```
 
-### Alternative: Justfile
+### Alternative: just
 
-If you have [`just`](https://just.systems) installed, every command is also available as `just <recipe>` with two extras:
+If `just` is installed, every command is also available as `just <recipe>`:
 
 ```bash
-just ci            # fmt + lint + test in one shot
-just clean         # remove target/ artifacts
+just run
+just build
+just batch           # generate all contracts
+just ci              # fmt + lint + test in one shot
+just clean           # remove target/ artifacts
 ```
 
 ---
