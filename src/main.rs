@@ -7,10 +7,10 @@ mod utils;
 
 use clap::Parser;
 use colored::Colorize;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use cli::{Cli, Commands, Format};
-use config::defaults::load_brand;
+use config::{defaults::load_brand, BrandConfig, LogoAsset, LogoPosition};
 use schema::{openapi, validate, ApiContract};
 
 fn main() {
@@ -24,10 +24,20 @@ fn run() -> anyhow::Result<()> {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Generate { input, brand, format, output, openapi: is_openapi, templates } => {
+        Commands::Generate { input, brand, logo, watermark, format, output, openapi: is_openapi, templates } => {
             let contract = load_contract(&input, is_openapi)?;
             validate::validate(&contract)?;
-            generate_output(contract, brand, format, output, templates)?;
+            let mut brand_cfg = load_brand(brand.as_deref().and_then(|p| p.to_str()))?;
+            apply_image_flags(&mut brand_cfg, logo.as_deref(), watermark.as_deref())?;
+            let template_dir = templates.as_deref().and_then(|p| p.to_str()).unwrap_or("templates");
+            let output_path = output.unwrap_or_else(|| {
+                PathBuf::from(match format { Format::Pdf => "contract.pdf", Format::Docx => "contract.docx" })
+            });
+            match format {
+                Format::Pdf  => render::pdf::render(&contract, &brand_cfg, template_dir, &output_path)?,
+                Format::Docx => render::docx::render(&contract, &brand_cfg, &output_path)?,
+            }
+            println!("{} {}", "Generated:".green().bold(), output_path.display());
         }
 
         Commands::Validate { input, openapi: is_openapi } => {
@@ -36,7 +46,7 @@ fn run() -> anyhow::Result<()> {
             println!("{} Contract is valid ({} endpoints)", "OK:".green().bold(), contract.endpoints.len());
         }
 
-        Commands::Scan { path, title, base_url, output, generate, brand } => {
+        Commands::Scan { path, title, base_url, output, generate, brand, logo, watermark } => {
             println!("{} {}", "Scanning:".cyan().bold(), path.display());
 
             let (contract, framework) = scanner::scan(
@@ -51,7 +61,6 @@ fn run() -> anyhow::Result<()> {
                 contract.endpoints.len()
             );
 
-            // Determine where to save the contract JSON.
             let contract_path = output.unwrap_or_else(|| {
                 let name = path.file_name()
                     .and_then(|n| n.to_str())
@@ -64,10 +73,9 @@ fn run() -> anyhow::Result<()> {
             std::fs::write(&contract_path, &json)?;
             println!("{} {}", "Contract:".green().bold(), contract_path.display());
 
-            // Optionally generate the PDF right away.
             if generate {
-                let brand_cfg = load_brand(brand.as_deref().and_then(|p| p.to_str()))?;
-                let pdf_path = contract_path.with_extension("pdf");
+                let mut brand_cfg = load_brand(brand.as_deref().and_then(|p| p.to_str()))?;
+                apply_image_flags(&mut brand_cfg, logo.as_deref(), watermark.as_deref())?;
                 let name = contract_path.file_stem()
                     .and_then(|n| n.to_str())
                     .unwrap_or("api");
@@ -82,24 +90,30 @@ fn run() -> anyhow::Result<()> {
     Ok(())
 }
 
-fn generate_output(
-    contract: ApiContract,
-    brand: Option<PathBuf>,
-    format: Format,
-    output: Option<PathBuf>,
-    templates: Option<PathBuf>,
+/// Load an image file, base64-encode it, and inject it into the brand config.
+/// `--logo` sets position Left; `--watermark` sets position Watermark.
+fn apply_image_flags(
+    brand: &mut BrandConfig,
+    logo: Option<&Path>,
+    watermark: Option<&Path>,
 ) -> anyhow::Result<()> {
-    let brand_cfg = load_brand(brand.as_deref().and_then(|p| p.to_str()))?;
-    let template_dir = templates.as_deref().and_then(|p| p.to_str()).unwrap_or("templates");
-    let output_path = output.unwrap_or_else(|| {
-        PathBuf::from(match format { Format::Pdf => "contract.pdf", Format::Docx => "contract.docx" })
-    });
-    match format {
-        Format::Pdf  => render::pdf::render(&contract, &brand_cfg, template_dir, &output_path)?,
-        Format::Docx => render::docx::render(&contract, &brand_cfg, &output_path)?,
+    if let Some(path) = watermark.or(logo) {
+        let position = if watermark.is_some() { LogoPosition::Watermark } else { LogoPosition::Left };
+        let bytes = std::fs::read(path)
+            .map_err(|e| anyhow::anyhow!("cannot read image '{}': {}", path.display(), e))?;
+        let mime = mime_from_path(path);
+        use base64::Engine as _;
+        let data = base64::engine::general_purpose::STANDARD.encode(&bytes);
+        brand.logo = Some(LogoAsset { data, mime, position, width_pt: None });
     }
-    println!("{} {}", "Generated:".green().bold(), output_path.display());
     Ok(())
+}
+
+fn mime_from_path(path: &Path) -> String {
+    match path.extension().and_then(|e| e.to_str()) {
+        Some("svg") => "image/svg+xml".into(),
+        _           => "image/png".into(),
+    }
 }
 
 fn load_contract(path: &PathBuf, is_openapi: bool) -> anyhow::Result<ApiContract> {

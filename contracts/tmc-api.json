@@ -1,0 +1,1934 @@
+{
+  "title": "tmc-api",
+  "version": "1.0.0",
+  "description": null,
+  "base_url": "http://localhost:8080",
+  "endpoints": [
+    {
+      "method": "get",
+      "path": "/api/asesores",
+      "title": "List",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "page",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "type": "integer",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "status",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "rol",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Lista de asesores obtenida correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al obtener la lista de asesores",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/asesores/:id",
+      "title": "Get By ID",
+      "description": null,
+      "parameters": [
+        {
+          "name": "id",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Asesor obtenido correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "ID inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "body": {
+            "message": "Asesor no encontrado",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "put",
+      "path": "/api/asesores/:id/status",
+      "title": "Update Status",
+      "description": null,
+      "parameters": [
+        {
+          "name": "id",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "status",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "rechazo_motivo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Status del asesor actualizado correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "ID inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Status inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "body": {
+            "message": "Asesor no encontrado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al actualizar el status del asesor",
+            "status": "ERROR"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al actualizar el perfil del asesor",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "put",
+      "path": "/api/asesores/perfil",
+      "title": "Update Perfil",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "nombre",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "apellidos",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "correo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "celular",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "numero_consar",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "foto_perfil",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "ine_frente",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "ine_reverso",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cuenta_santander",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "estado_cuenta",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Perfil actualizado correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 401,
+          "description": "No autenticado",
+          "body": {
+            "message": "No autenticado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "body": {
+            "message": "Perfil no encontrado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al actualizar el perfil",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/auth/forgot-password",
+      "title": "Forgot Password",
+      "description": null,
+      "parameters": [],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Si el correo está registrado recibirás instrucciones para restablecer tu contraseña",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 422,
+          "description": "Error de validación",
+          "body": {
+            "message": "Error de validación, revisa los campos",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/auth/login",
+      "title": "Login",
+      "description": null,
+      "parameters": [
+        {
+          "name": "email",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "password",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Inicio de sesión exitoso",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 422,
+          "description": "Error de validación",
+          "body": {
+            "message": "Error de validación, revisa los campos",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/auth/logout",
+      "title": "Logout",
+      "description": null,
+      "parameters": [],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Sesión cerrada correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 422,
+          "description": "Error de validación",
+          "body": {
+            "message": "Error de validación, revisa los campos",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al cerrar sesión",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/auth/logout-all",
+      "title": "Logout All",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Todas las sesiones cerradas correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 401,
+          "description": "No autenticado",
+          "body": {
+            "message": "No autenticado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al cerrar todas las sesiones",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/auth/me",
+      "title": "Me",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Perfil obtenido correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 401,
+          "description": "No autenticado",
+          "body": {
+            "message": "No autenticado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "body": {
+            "message": "Usuario no encontrado",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/auth/refresh",
+      "title": "Refresh",
+      "description": null,
+      "parameters": [],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Token renovado correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "refresh_token requerido",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/auth/register",
+      "title": "Register",
+      "description": null,
+      "parameters": [
+        {
+          "name": "email",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "password",
+          "location": "body",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "rol",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "perfil",
+          "location": "body",
+          "type": "object",
+          "required": true,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 201,
+          "description": "Creado",
+          "body": {
+            "message": "Registro exitoso, tu solicitud está en revisión",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 422,
+          "description": "Error de validación",
+          "body": {
+            "message": "Error de validación, revisa los campos",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/auth/reset-password",
+      "title": "Reset Password",
+      "description": null,
+      "parameters": [],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Contraseña actualizada correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 422,
+          "description": "Error de validación",
+          "body": {
+            "message": "Error de validación, revisa los campos",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/productos",
+      "title": "List",
+      "description": null,
+      "parameters": [],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Productos obtenidos correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al obtener los productos",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/afore-rojo",
+      "title": "List",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al obtener los trámites",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/tramites/afore-rojo",
+      "title": "Create",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "cliente_nss",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_curp",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_nombre",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_correo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_celular",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "saldo",
+          "location": "body",
+          "type": "number",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen1",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen2",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen3",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen_afore_movil",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen_folio",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen_confirmacion",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 201,
+          "description": "Creado",
+          "body": {
+            "message": "Trámite registrado correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 401,
+          "description": "No autenticado",
+          "body": {
+            "message": "No autenticado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al registrar el trámite",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "delete",
+      "path": "/api/tramites/afore-rojo/:id",
+      "title": "Delete",
+      "description": null,
+      "parameters": [
+        {
+          "name": "id",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Trámite eliminado correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "ID inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al eliminar el trámite",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/afore-rojo/:id",
+      "title": "Get By ID",
+      "description": null,
+      "parameters": [
+        {
+          "name": "id",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Trámite obtenido correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "ID inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "body": {
+            "message": "Trámite no encontrado",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "put",
+      "path": "/api/tramites/afore-rojo/:id",
+      "title": "Update",
+      "description": null,
+      "parameters": [
+        {
+          "name": "id",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "cliente_nss",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_curp",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_nombre",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_correo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_celular",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "saldo",
+          "location": "body",
+          "type": "number",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen1",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen2",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen3",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen_afore_movil",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen_folio",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen_confirmacion",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Trámite actualizado correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "ID inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "body": {
+            "message": "Trámite no encontrado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al actualizar el trámite",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "put",
+      "path": "/api/tramites/afore-rojo/:id/status",
+      "title": "Update Status",
+      "description": null,
+      "parameters": [
+        {
+          "name": "id",
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "status",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "rechazo_motivo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "OK",
+          "body": {
+            "message": "Status del trámite actualizado correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "ID inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Cuerpo de solicitud inválido",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Status inválido, usa: proceso, aceptado, rechazado o pagado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 404,
+          "description": "No encontrado",
+          "body": {
+            "message": "Trámite no encontrado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al actualizar el status del trámite",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/afore-rojo/mis-tramites",
+      "title": "List By Asesor",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 401,
+          "description": "No autenticado",
+          "body": {
+            "message": "No autenticado",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al obtener tus trámites",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/inversiones",
+      "title": "List Inversiones",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/tramites/inversiones",
+      "title": "Create Inversion",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "cliente_nss",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_curp",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_nombre",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_correo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_celular",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "monto_invertir",
+          "location": "body",
+          "type": "number",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "plazo",
+          "location": "body",
+          "type": "integer",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "tasa_retorno",
+          "location": "body",
+          "type": "number",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen1",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen2",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen3",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/inversiones/mis-tramites",
+      "title": "List Inversiones By Asesor",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/modalidad-40",
+      "title": "List Modalidad40",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/tramites/modalidad-40",
+      "title": "Create Modalidad40",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "cliente_nss",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_curp",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_nombre",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_correo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_celular",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "semanas_cotizadas",
+          "location": "body",
+          "type": "integer",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "monto",
+          "location": "body",
+          "type": "number",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen1",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen2",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen3",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/modalidad-40/mis-tramites",
+      "title": "List Modalidad40 By Asesor",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/pensiones",
+      "title": "List Pensiones",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/tramites/pensiones",
+      "title": "Create Pension",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "cliente_nss",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_curp",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_nombre",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_correo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_celular",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "tipo_pension",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "monto",
+          "location": "body",
+          "type": "number",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen1",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen2",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen3",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/pensiones/mis-tramites",
+      "title": "List Pensiones By Asesor",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/prestamos",
+      "title": "List Prestamos",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/tramites/prestamos",
+      "title": "Create Prestamo",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        },
+        {
+          "name": "cliente_nss",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_curp",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_nombre",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_correo",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "cliente_celular",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "monto",
+          "location": "body",
+          "type": "number",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen1",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen2",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        },
+        {
+          "name": "imagen3",
+          "location": "body",
+          "type": "string",
+          "required": false,
+          "description": null,
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/api/tramites/prestamos/mis-tramites",
+      "title": "List Prestamos By Asesor",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/upload",
+      "title": "Upload",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 201,
+          "description": "Creado",
+          "body": {
+            "message": "Archivo subido correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "No se encontró el archivo en la solicitud",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Tipo de archivo no permitido, usa: jpg, jpeg, png, gif, webp o pdf",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno",
+          "body": {
+            "message": "Error al subir el archivo",
+            "status": "ERROR"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "post",
+      "path": "/api/upload/multiple",
+      "title": "Upload Multiple",
+      "description": null,
+      "parameters": [
+        {
+          "name": "Authorization",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "Bearer <token>",
+          "example": null
+        }
+      ],
+      "responses": [
+        {
+          "status": 201,
+          "description": "Creado",
+          "body": {
+            "message": "Archivos subidos correctamente",
+            "status": "OK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "No se encontraron archivos en la solicitud",
+            "status": "NOK"
+          }
+        },
+        {
+          "status": 400,
+          "description": "Solicitud inválida",
+          "body": {
+            "message": "Debes enviar al menos un archivo",
+            "status": "NOK"
+          }
+        }
+      ],
+      "tags": null
+    },
+    {
+      "method": "get",
+      "path": "/health",
+      "title": "Ctx",
+      "description": null,
+      "parameters": [],
+      "responses": [],
+      "tags": null
+    }
+  ]
+}

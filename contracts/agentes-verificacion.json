@@ -1,0 +1,199 @@
+{
+  "title": "Verificación de Agentes",
+  "version": "1.1.0",
+  "description": "Backend que respalda la herramienta pública \"Verificación de Agentes\" de moneycentermexico.com y la credencial pública/QR de cada agente. El primer endpoint es server-a-servidor — el navegador del visitante nunca debe llamarlo directo, solo el backend del sitio público, tras su propio captcha. El segundo es público y sin secreto, pensado para abrirse directo desde un QR escaneado.",
+  "base_url": "https://tmc-api-production.up.railway.app",
+  "endpoints": [
+    {
+      "method": "get",
+      "path": "/api/public/agentes/verificar",
+      "title": "Verificar Agente",
+      "description": "Busca agentes activos de cara al cliente por nombre parcial o teléfono exacto. Devuelve nombre, foto de perfil y el link a su credencial pública — nunca celular, correo, CURP, gerencia, rol ni comisiones.",
+      "parameters": [
+        {
+          "name": "X-Verification-Key",
+          "location": "header",
+          "type": "string",
+          "required": true,
+          "description": "e48e5cfd2676590f594507dd5f41e136d9ac9444e490521b1fdf6ff8a448d194",
+          "example": "e48e5cfd2676590f594507dd5f41e136d9ac9444e490521b1fdf6ff8a448d194"
+        },
+        {
+          "name": "X-Visitor-IP",
+          "location": "header",
+          "type": "string",
+          "required": false,
+          "description": "189.203.10.44",
+          "example": "189.203.10.44"
+        },
+        {
+          "name": "nombre",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Búsqueda parcial (contiene) sobre nombre completo. Mínimo 3 caracteres. Se ignora si también se manda telefono.",
+          "example": "Juan Pérez"
+        },
+        {
+          "name": "telefono",
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "Exactamente 10 dígitos, coincidencia exacta. Tiene prioridad sobre nombre si se mandan ambos. Cualquier valor de longitud distinta a 10 se descarta silenciosamente.",
+          "example": "5512345678"
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "Búsqueda completada. data siempre es un arreglo (hasta 5 resultados), incluso vacío — un arreglo vacío significa \"no encontramos a nadie\" y es una respuesta normal, no un error. foto_perfil es null (no ausente) si el agente no tiene foto cargada.",
+          "body": {
+            "status": "OK",
+            "message": "Verificación completada",
+            "data": [
+              {
+                "nombre": "Juan Pérez López",
+                "foto_perfil": "https://<bucket-firmado>/perfiles/....jpg",
+                "credencial_url": "https://agentes.moneycentermexico.com/credencial/3f2a9c81-4d1e-4b7a-9e02-1c8f5b6d0a44"
+              }
+            ]
+          }
+        },
+        {
+          "status": 200,
+          "description": "Ejemplo real — GET https://tmc-api-production.up.railway.app/api/public/agentes/verificar?nombre=jose lopez → 1 resultado.",
+          "body": {
+            "status": "OK",
+            "message": "Verificación completada",
+            "data": [
+              {
+                "nombre": "Jose Lopez Trejo",
+                "foto_perfil": "https://<bucket-firmado>/usuarios/jose-lopez-trejo-82af25ac-r/foto-perfil.jpg",
+                "credencial_url": "https://agentes.moneycentermexico.com/credencial/82af25ac-b5ca-49a3-b96b-a748fdefc2e3"
+              }
+            ]
+          }
+        },
+        {
+          "status": 200,
+          "description": "Ejemplo real — GET https://tmc-api-production.up.railway.app/api/public/agentes/verificar?nombre=prado → 2 resultados (mismo apellido, dos agentes distintos).",
+          "body": {
+            "status": "OK",
+            "message": "Verificación completada",
+            "data": [
+              {
+                "nombre": "Heidi Marina Prado Gutierrez",
+                "foto_perfil": "https://<bucket-firmado>/usuarios/heidi-marina-prado-gutierrez-fa59eaae-r/foto-perfil.jpg",
+                "credencial_url": "https://agentes.moneycentermexico.com/credencial/fa59eaae-ae1c-44b6-a222-c859cbebc3ab"
+              },
+              {
+                "nombre": "Mauricio Prado Guerrero",
+                "foto_perfil": "https://<bucket-firmado>/usuarios/mauricio-prado-guerrero-69538460-r/foto-perfil.jpg",
+                "credencial_url": "https://agentes.moneycentermexico.com/credencial/69538460-34ca-4923-af77-d5c8abf152b1"
+              }
+            ]
+          }
+        },
+        {
+          "status": 400,
+          "description": "Ni nombre (≥3 caracteres) ni telefono (10 dígitos) válidos en el request.",
+          "body": {
+            "status": "NOK",
+            "message": "Escribe un nombre de al menos 3 caracteres o un teléfono de 10 dígitos"
+          }
+        },
+        {
+          "status": 401,
+          "description": "X-Verification-Key ausente o incorrecta.",
+          "body": {
+            "status": "NOK",
+            "message": "No autorizado"
+          }
+        },
+        {
+          "status": 429,
+          "description": "Límite por visitante alcanzado (5/hora vía X-Visitor-IP).",
+          "body": {
+            "status": "NOK",
+            "message": "Límite de verificaciones alcanzado, intenta de nuevo en una hora"
+          }
+        },
+        {
+          "status": 429,
+          "description": "Techo global de la integración alcanzado (300/hora) — protege el sistema si X-Visitor-IP viene ausente o la key se filtró.",
+          "body": {
+            "status": "NOK",
+            "message": "Límite de verificaciones alcanzado, intenta más tarde"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno. Reintentar más tarde, no en loop inmediato.",
+          "body": {
+            "status": "ERROR",
+            "message": "Error al verificar"
+          }
+        }
+      ],
+      "tags": ["público", "agentes"]
+    },
+    {
+      "method": "get",
+      "path": "/api/public/agentes/credencial/:id",
+      "title": "Credencial Pública del Agente",
+      "description": "Devuelve el gafete/credencial pública de un agente — nombre, rol, gerencia, foto y un QR ya generado que codifica esta misma URL. A diferencia de Verificar Agente, esta ruta la llama directo el navegador del visitante (no lleva X-Verification-Key) — pensada para abrirse al escanear el QR físico o al seguir el credencial_url que devuelve el endpoint anterior. Protegida solo por rate-limit (10/min por IP) y por usar un UUID no enumerable como identificador.",
+      "parameters": [
+        {
+          "name": "id",
+          "location": "path",
+          "type": "string (uuid)",
+          "required": true,
+          "description": "UUID interno del agente. Es el mismo id codificado en credencial_url y en el QR — no se genera ni se adivina, siempre se obtiene de Verificar Agente o del QR físico del agente.",
+          "example": "3f2a9c81-4d1e-4b7a-9e02-1c8f5b6d0a44"
+        }
+      ],
+      "responses": [
+        {
+          "status": 200,
+          "description": "Agente encontrado y activo. gerencia se omite del JSON si el agente no tiene una asignada (ej. director_general).",
+          "body": {
+            "status": "OK",
+            "message": "Credencial obtenida",
+            "data": {
+              "nombre": "Juan Pérez López",
+              "rol": "asesor",
+              "gerencia": "The Money Center 1",
+              "foto_perfil": "https://<bucket-firmado>/perfiles/....jpg",
+              "qr": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEA... (PNG completo, recortado aquí por espacio)"
+            }
+          }
+        },
+        {
+          "status": 404,
+          "description": "El id no existe, el agente no está activo, o su rol no es verificable públicamente — mismo 404 en los tres casos, no se distingue cuál aplicó.",
+          "body": {
+            "status": "NOK",
+            "message": "Agente no encontrado"
+          }
+        },
+        {
+          "status": 429,
+          "description": "Límite alcanzado (10 solicitudes/minuto por IP) — desincentiva scraping en bulk sin bloquear el uso normal.",
+          "body": {
+            "status": "NOK",
+            "message": "Demasiadas solicitudes, intenta de nuevo en un momento"
+          }
+        },
+        {
+          "status": 500,
+          "description": "Error interno. Reintentar más tarde, no en loop inmediato.",
+          "body": {
+            "status": "ERROR",
+            "message": "Error al obtener la credencial"
+          }
+        }
+      ],
+      "tags": ["público", "agentes", "credencial"]
+    }
+  ]
+}

@@ -25,6 +25,14 @@ pub enum Commands {
         #[arg(short, long)]
         brand: Option<PathBuf>,
 
+        /// Logo image file (PNG/SVG) to place in the page header.
+        #[arg(long, value_name = "FILE")]
+        logo: Option<PathBuf>,
+
+        /// Image file to use as a full-page watermark background.
+        #[arg(long, value_name = "FILE")]
+        watermark: Option<PathBuf>,
+
         /// Output format.
         #[arg(short, long, value_enum, default_value_t = Format::Pdf)]
         format: Format,
@@ -77,6 +85,14 @@ pub enum Commands {
         /// Brand config to use when --generate is set.
         #[arg(short, long)]
         brand: Option<PathBuf>,
+
+        /// Logo image file (PNG/SVG) for the page header.
+        #[arg(long, value_name = "FILE")]
+        logo: Option<PathBuf>,
+
+        /// Image file to use as a full-page watermark background.
+        #[arg(long, value_name = "FILE")]
+        watermark: Option<PathBuf>,
     },
 }
 
