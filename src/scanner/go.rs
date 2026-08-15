@@ -209,27 +209,32 @@ fn enrich_endpoint(ep: &mut Endpoint, body: &str, struct_map: &HashMap<String, V
     }
 
     // 3. Responses: extract project-style helpers first (include message + body).
-    //    Pattern: response.Helper(c, "message") or response.Helper(c, "message", data)
-    let helper_re = Regex::new(r#"response\.(\w+)\s*\(\s*c,\s*"([^"]+)""#).unwrap();
+    //    Pattern: response.Helper(c, "literal message") or response.Helper(c, err.Error())
+    //    The second arg may be a string literal (real message) or a dynamic expression
+    //    (e.g. an error propagated from a DB/service call) — in that case we can't know
+    //    the runtime text, so we say so explicitly instead of inventing one.
+    let helper_re = Regex::new(
+        r#"response\.(\w+)\s*\(\s*c,\s*(?:"([^"]+)"|([\w][\w.]*(?:\(\))?))"#,
+    ).unwrap();
+    let mut uses_response_pattern = false;
     for cap in helper_re.captures_iter(body) {
-        let helper  = &cap[1];
-        let message = cap[2].to_string();
-        if let Some(code) = response_helper_to_status(helper) {
-            let status_val = match helper {
-                "OK" | "Created" | "NoContent" => "OK",
-                "InternalError"                => "ERROR",
-                _                              => "NOK",
-            };
-            let resp_body = serde_json::json!({
-                "status":  status_val,
-                "message": message
-            });
-            ep.responses.push(ResponseExample {
-                status:      code,
-                description: Some(status_label(code).to_string()),
-                body:        Some(resp_body),
-            });
-        }
+        let helper = &cap[1];
+        let Some(code) = response_helper_to_status(helper) else { continue };
+        uses_response_pattern = true;
+        let message: serde_json::Value = match (cap.get(2), cap.get(3)) {
+            (Some(literal), _) => serde_json::Value::String(literal.as_str().to_string()),
+            (None, Some(expr)) => serde_json::Value::String(format!("<dinámico: {}>", expr.as_str())),
+            (None, None)       => serde_json::Value::Null,
+        };
+        let resp_body = serde_json::json!({
+            "status":  code_to_status_val(code),
+            "message": message
+        });
+        ep.responses.push(ResponseExample {
+            status:      code,
+            description: Some(status_label(code).to_string()),
+            body:        Some(resp_body),
+        });
     }
 
     // Fall back to generic c.Status(N) for any status not yet covered.
@@ -244,16 +249,31 @@ fn enrich_endpoint(ep: &mut Endpoint, body: &str, struct_map: &HashMap<String, V
     }
     for code in extra {
         if !ep.responses.iter().any(|r| r.status == code) {
+            // Only guess the {status, message} shape when this same endpoint already
+            // proved the project uses that convention elsewhere — otherwise leave it
+            // as an empty body rather than fabricate a shape we never observed.
+            let body = if uses_response_pattern && code >= 400 {
+                Some(serde_json::json!({
+                    "status":  code_to_status_val(code),
+                    "message": "<dinámico: mensaje real solo disponible en runtime>"
+                }))
+            } else {
+                None
+            };
             ep.responses.push(ResponseExample {
                 status:      code,
                 description: Some(status_label(code).to_string()),
-                body:        None,
+                body,
             });
         }
     }
 
     // Sort responses by status code so same-status alternatives are adjacent.
     ep.responses.sort_by_key(|r| r.status);
+}
+
+fn code_to_status_val(code: u16) -> &'static str {
+    if code >= 500 { "ERROR" } else if code < 300 { "OK" } else { "NOK" }
 }
 
 fn resolve_body_type(body: &str) -> Option<String> {
@@ -616,7 +636,58 @@ fn status_label(code: u16) -> &'static str {
 
 #[cfg(test)]
 mod tests {
-    use super::resolve_body_type;
+    use super::{enrich_endpoint, resolve_body_type};
+    use crate::schema::contract::{Endpoint, HttpMethod};
+    use std::collections::HashMap;
+
+    #[test]
+    fn enriches_responses_without_fabricating_dynamic_messages() {
+        let body = r#"
+            if err := c.BodyParser(&input); err != nil {
+                return response.BadRequest(c, "invalid body")
+            }
+            user, err := findUser(input.Email)
+            if err != nil {
+                return response.InternalError(c, err.Error())
+            }
+            if user == nil {
+                return c.Status(404).JSON(fiber.Map{"error": "not found"})
+            }
+            return response.OK(c, "login ok")
+        "#;
+        let mut ep = Endpoint {
+            method: HttpMethod::Post,
+            path: "/login".to_string(),
+            title: "Login".to_string(),
+            description: None,
+            parameters: vec![],
+            responses: vec![],
+            tags: None,
+        };
+        enrich_endpoint(&mut ep, body, &HashMap::new());
+
+        let by_status = |code: u16| ep.responses.iter().find(|r| r.status == code).unwrap();
+
+        // Literal messages are captured verbatim — they are real, not invented.
+        assert_eq!(by_status(200).body.as_ref().unwrap()["message"], "login ok");
+        assert_eq!(by_status(400).body.as_ref().unwrap()["message"], "invalid body");
+
+        // A message sourced from a runtime expression is labeled as dynamic,
+        // citing the exact expression, instead of guessing its text.
+        assert_eq!(
+            by_status(500).body.as_ref().unwrap()["message"],
+            "<dinámico: err.Error()>"
+        );
+
+        // A bare c.Status(404) has no helper call of its own, but the endpoint
+        // already proved the project uses the {status, message} shape elsewhere,
+        // so we reuse that real shape with a placeholder instead of leaving it null.
+        assert_eq!(by_status(404).body.as_ref().unwrap()["status"], "NOK");
+        assert!(by_status(404).body.as_ref().unwrap()["message"]
+            .as_str()
+            .unwrap()
+            .starts_with("<dinámico:"));
+    }
 
     #[test]
     fn resolves_body_type_across_package_qualifiers() {
